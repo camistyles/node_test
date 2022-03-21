@@ -1,0 +1,11 @@
+name: Deploy production env
+
+on: 
+  push:
+    branches:
+      - "master"
+jobs:
+  ci_other_file:
+    uses: camilo-rojas/infra_test/pipeline/ci/node.yml@master
+    with:
+      codeCoverage: "50"
