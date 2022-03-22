@@ -28,6 +28,6 @@ describe ("hola ff", () => {
     test('ff to deploy pipeline', () => {
         const rel = ff(2,2)
     
-         expect(rel).toBe(6)
+         expect(rel).toBe(4)
     })
 })
