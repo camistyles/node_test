@@ -6,6 +6,21 @@ on:
       codeCoverage:
         required: true
         type: string
+      region:
+        required: true
+        type: string
+      repo:
+        required: true
+        type: string
+      deploy_env:
+        required: true
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
 jobs: 
   test_and_coverage:
     runs-on: ubuntu-latest
@@ -34,4 +49,42 @@ jobs:
           CI_COVERAGE_MIN: ${{ inputs.codeCoverage }}
         with:
           args: test.sh
+  build-image:
+    name: Build image
+    environment: test
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.push-image.outputs.image }}
+    
+    steps:
+      - name: "set Aws config"
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.region }}
+          mask-aws-account-id: false
+      
+      - name: Login to registry
+        id: login-aws-registry
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      - name: push image
+        id: push-image
+        env:
+          ECR_REGISTRY: ${{ steps.llogin-aws-registry.outputs.registry }}
+          ECR_REPOSITORY: ${{ inputs.repo }}
+          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_ENV: ${{ inputs.deploy_env }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_ENV
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_ENV
+          echo "**********************************************************"
+          echo "| IMAGE BUILT: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "| IMAGE ENV: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_ENV"
+          echo "| VERSION: $IMAGE_TAG - $IMAGE_ENV"
+          echo "*------------------------------------------------------------*"
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
