@@ -1,0 +1,15 @@
+name: test job reutilisable
+
+on:
+  workflow_call:
+    inputs:
+      codeCoverage:
+        required: true
+        type: string
+jobs:
+  test_and_coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "test_coverage"
+        run: "echo 'this is my coverage :::: ${{ inputs.codeCoverage }}'"
+
