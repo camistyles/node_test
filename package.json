@@ -1,0 +1,22 @@
+{
+  "name": "node_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "test-cove": "jest --coverage --collectCoverageFrom='**/cmd/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.globant.com:camilo-rojas/node_test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
