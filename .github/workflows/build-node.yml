@@ -22,8 +22,8 @@ on:
         required: true
     outputs:
       built-image:
-        Description: "image latest by each evironmet"
-        Value: ${{ jobs.build-image.outputs.image}}
+        description: "image latest by each evironmet"
+        value: ${{ jobs.build-image.outputs.image}}
 
 jobs: 
   test_and_coverage:
