@@ -8,7 +8,6 @@ on:
     
 jobs:
   ci-other-file:
-    environment: test
     uses: ./.github/workflows/build-node.yml
     with:
       codeCoverage: ${{ secrets.CI_COVERAGE_MIN }}
