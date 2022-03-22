@@ -8,6 +8,7 @@ on:
     
 jobs:
   ci-other-file:
+    environment: test
     uses: camilo-rojas/node_test/.github/workflows/build-node.yml@master
     with:
-      codeCoverage: "50"
+      codeCoverage: ${{ secrets.CI_COVERAGE_MIN }}
