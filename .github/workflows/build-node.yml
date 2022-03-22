@@ -58,6 +58,9 @@ jobs:
       image: ${{ steps.push-image.outputs.image }}
     
     steps:
+      - name: "checkout code"
+        uses: actions/checkout@v2
+        
       - name: "set Aws config"
         uses: aws-actions/configure-aws-credentials@v1
         with:
