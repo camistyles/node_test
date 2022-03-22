@@ -4,11 +4,8 @@ on:
   workflow_call:
     inputs:
       codeCoverage:
-        required: false
-        type: string
-    secrets:
-      cove:
         required: true
+        type: string
 jobs: 
   test_and_coverage:
     runs-on: ubuntu-latest
@@ -34,7 +31,7 @@ jobs:
       - name: "test_coverage"
         uses: docker://camistyles/test-node-ci:node-test
         env:
-          CI_COVERAGE_MIN: ${{ secrets.cove }}
+          CI_COVERAGE_MIN: ${{ inputs.codeCoverage }}
         with:
           args: test.sh
 

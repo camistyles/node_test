@@ -5,11 +5,14 @@ on:
     branches:
       - "master"
   workflow_dispatch:
-    
+  
+
+env:
+  CI_COVERAGE_MIN: 60
 jobs:
   ci-other-file:
     uses: ./.github/workflows/build-node.yml
-    secrets:
-      cove: ${{ secrets.CI_COVERAGE_MIN }}
+    with:
+      codeCoverage: ${{ env.CI_COVERAGE_MIN }}
     # with:
     #   codeCoverage: ${{ secrets.CI_COVERAGE_MIN }}
