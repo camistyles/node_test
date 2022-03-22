@@ -9,9 +9,5 @@ on:
 jobs:
   ci-other-file:
     uses: ./.github/workflows/build-node.yml
-    env:
-      CI_COVERAGE_MIN: "60"
     with:
-      codeCoverage: ${{ env.CI_COVERAGE_MIN }}
-    # with:
-    #   codeCoverage: ${{ secrets.CI_COVERAGE_MIN }}
+      codeCoverage: "50"
