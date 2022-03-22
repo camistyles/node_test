@@ -8,6 +8,6 @@ on:
     
 jobs:
   ci-other-file:
-    uses: camistyles/infra_test/.github/workflows/build-node.yml@4fe3f97039322f88d0d0e64d1cca33f69eafc4bc
+    uses: ./.github/workflows/reutil/build-node.yml
     with:
       codeCoverage: "50"
