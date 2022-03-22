@@ -9,6 +9,6 @@ on:
 jobs:
   ci-other-file:
     environment: test
-    uses: camilo-rojas/node_test/.github/workflows/build-node.yml@master
+    uses: ./.github/workflows/build-node.yml
     with:
       codeCoverage: ${{ secrets.CI_COVERAGE_MIN }}
