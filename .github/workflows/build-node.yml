@@ -30,7 +30,7 @@ jobs:
       - name: "test_coverage"
         uses: docker://camistyles/test-node-ci:node-test
         env:
-          CI_COVERAGE_MIN: "40"
+          CI_COVERAGE_MIN: "70"
         with:
           args: test.sh
 
