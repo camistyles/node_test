@@ -8,6 +8,6 @@ on:
     
 jobs:
   ci-other-file:
-    uses: ./.github/workflows/build-node.yml@master
+    uses: camilo-rojas/node_test/.github/workflows/build-node.yml@master
     with:
       codeCoverage: "50"
