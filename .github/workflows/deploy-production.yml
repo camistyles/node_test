@@ -8,8 +8,8 @@ on:
   
 
 env:
-  CI_COVERAGE_MIN: 60
-  
+  CI_COVERAGE_MIN: "60"
+
 jobs:
   ci-other-file:
     uses: ./.github/workflows/build-node.yml
