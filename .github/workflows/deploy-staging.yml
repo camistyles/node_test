@@ -1,9 +1,6 @@
 name: Deploy production env
 
 on: 
-  push:
-    branches:
-      - "master"
   workflow_dispatch:
   
 jobs:
