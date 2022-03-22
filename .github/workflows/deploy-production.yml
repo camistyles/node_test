@@ -9,5 +9,7 @@ on:
 jobs:
   ci-other-file:
     uses: ./.github/workflows/build-node.yml
+    secrets:
+      cove: ${{ secrets.CI_COVERAGE_MIN }}
     # with:
     #   codeCoverage: ${{ secrets.CI_COVERAGE_MIN }}

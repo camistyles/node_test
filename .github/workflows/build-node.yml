@@ -6,7 +6,10 @@ on:
       codeCoverage:
         required: false
         type: string
-jobs:
+    secrets:
+      cove:
+        required: true
+jobs: 
   test_and_coverage:
     runs-on: ubuntu-latest
     environment: test
@@ -31,7 +34,7 @@ jobs:
       - name: "test_coverage"
         uses: docker://camistyles/test-node-ci:node-test
         env:
-          CI_COVERAGE_MIN: ${{ secrets.CI_COVERAGE_MIN }}
+          CI_COVERAGE_MIN: ${{ secrets.cove }}
         with:
           args: test.sh
 
