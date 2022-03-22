@@ -1,4 +1,4 @@
-name: test job reutilisable
+name: ci run
 
 on:
   workflow_call:
@@ -9,7 +9,9 @@ on:
 jobs:
   test_and_coverage:
     runs-on: ubuntu-latest
+    container:
+      image: camistyles/test-node-ci:node-test
     steps:
       - name: "test_coverage"
-        run: "echo 'this is my coverage :::: ${{ inputs.codeCoverage }}'"
+        run: "test.sh"
 
