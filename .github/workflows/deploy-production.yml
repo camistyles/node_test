@@ -8,6 +8,6 @@ on:
     
 jobs:
   ci-other-file:
-    uses: ./.github/workflows/build-node.yml@master
+    uses: ./.github/workflows/build-node.yml@${{ github.sha }}
     with:
       codeCoverage: "50"
