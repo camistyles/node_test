@@ -20,6 +20,10 @@ on:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
+    outputs:
+      built-image:
+        Description: "image latest by each evironmet"
+        Value: ${{ jobs.build-image.outputs.image}}
 
 jobs: 
   test_and_coverage:
@@ -60,7 +64,7 @@ jobs:
     steps:
       - name: "checkout code"
         uses: actions/checkout@v2
-        
+
       - name: "set Aws config"
         uses: aws-actions/configure-aws-credentials@v1
         with:

@@ -1,0 +1,70 @@
+name: deploy
+
+on:
+  workflow_call:
+    inputs:
+      image:
+        required: true
+        type: string
+      task-definition:
+        required: true
+        type: string
+      container-name:
+        required: true
+        type: string
+      app-service:
+        required: true
+        type: string
+      app-cluster:
+        required: true
+        type: string
+      deploy_env:
+        required: true
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+jobs:
+  deploy:
+    name: deploy image to evironmet production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set credentials aws
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+          mask-aws-account-id: false
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ inputs.task-definition }} \
+          --query taskDefinition > task-definition.json
+
+      - name: set-taskdefinition
+        id: task-set
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ inputs.container-name }}
+          image: ${{ inputs.image }}
+      
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-set.outputs.task-definition }}
+          service: ${{ inputs.app-service }}
+          cluster: ${{ inputs.app-cluster }}
+          wait-for-service-stability: true
+      
+      - name: Echo version deployed
+        run: |
+          echo "***************************************************************"
+          echo "| ENV: ${{ inputs.deploy_env }}"
+          echo "| IMAGE: ${{ inputs.deploy_env }}"
+          echo "| SERVICE: ${{ inputs.app-service }}"
+          echo "| CLUSTER: ${{ inputs.app-cluster }}"
+          echo "****************************************************************"

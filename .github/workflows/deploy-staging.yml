@@ -1,0 +1,21 @@
+name: Deploy production env
+
+on: 
+  push:
+    branches:
+      - "master"
+  workflow_dispatch:
+  
+jobs:
+  ci-other-file:
+    uses: ./.github/workflows/build-node.yml
+    with:
+      codeCoverage: "50"
+      region: "us-east-2"
+      repo: "enigma_backend"
+      deploy_env: "staging"
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  
+  deploy:
