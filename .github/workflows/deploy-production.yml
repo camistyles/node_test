@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     
 jobs:
-  ci_other_file:
+  ci-other-file:
     uses: camistyles/infra_test/.github/workflows/build-node.yml@main
     with:
       codeCoverage: "50"
