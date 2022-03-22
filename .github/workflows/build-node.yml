@@ -51,6 +51,7 @@ jobs:
           args: test.sh
   build-image:
     name: Build image
+    needs: test_and_coverage
     environment: test
     runs-on: ubuntu-latest
     outputs:
@@ -72,7 +73,7 @@ jobs:
       - name: push image
         id: push-image
         env:
-          ECR_REGISTRY: ${{ steps.llogin-aws-registry.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-aws-registry.outputs.registry }}
           ECR_REPOSITORY: ${{ inputs.repo }}
           IMAGE_TAG: ${{ github.sha }}
           IMAGE_ENV: ${{ inputs.deploy_env }}
