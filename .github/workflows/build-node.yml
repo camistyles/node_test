@@ -9,11 +9,11 @@ on:
 jobs:
   test_and_coverage:
     runs-on: ubuntu-latest
-    container:
-      image: camistyles/test-node-ci:node-test
     steps:
-      # - name: "checkout code"
-      #   uses: actions/checkout@v2
+      - name: "checkout code"
+        uses: actions/checkout@v2
       - name: "test_coverage"
-        run: "test.sh"
+        uses: docker://camistyles/test-node-ci:node-test
+        with:
+          args: test.sh
 
