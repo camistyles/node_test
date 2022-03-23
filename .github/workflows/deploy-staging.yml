@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - "releases/**"
-  create:
-    branches:
-      - "releases/**"
 jobs:
   ci:
     uses: ./.github/workflows/build-node.yml
