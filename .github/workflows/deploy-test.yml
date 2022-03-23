@@ -1,0 +1,25 @@
+name: Deploy to test by custom image
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_by_registry:
+        description: Image version to be deployed
+        required: true
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy-tmp.yml
+    env:
+      IMAGE: ${{ github.event.inputs.image_by_registry }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    with:
+      image: ${{ IMAGE }}
+      task-definition: backend-ecs-task-v2-testV2
+      container-name: backend-container-v2-testV2
+      app-service: backend-ecs-service-v2-testV2
+      app-cluster: marketplace-ecs-cluster-test
+      deploy_env: test
+
